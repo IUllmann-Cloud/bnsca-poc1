@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>POC</title>
+	</head>
+	<body>
+		<script>
+			(() => {
+				const pData = {
+					IVR_Customer_Language: 'English'
+				};
+
+				const dbSet = () => {
+					Genesys('command', 'Database.set', {
+						messaging: {
+							customAttributes: pData
+						}
+					});
+				};
+
+				if(window.location.search) {
+					const params = new URLSearchParams(window.location.search);
+
+					if(params.get('origConversationId')) {
+						pData.ENT_Genesys_ConversationId = params.get('origConversationId');
+					}
+
+					if(params.get('customerParticipantId')) {
+						pData.ENT_Customer_Participant_ID = params.get('customerParticipantId');
+					}
+
+					if(params.get('customerLanguage')) {
+						pData.IVR_Customer_Language = params.get('customerLanguage');
+					}
+
+					if(params.get('destinationQueue')) {
+						pData.GHYT = params.get('destinationQueue');
+					}
+
+				}
+
+				(function (g, e, n, es, ys) {
+					g['_genesysJs'] = e;
+					g[e] = g[e] || function () {
+					(g[e].q = g[e].q || []).push(arguments)
+					};
+					g[e].t = 1 * new Date();
+					g[e].c = es;
+					ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
+				})(window, 'Genesys', 'https://apps.cac1.pure.cloud/genesys-bootstrap/genesys.min.js', {
+					environment: 'prod-cac1',
+					deploymentId: 'd911e661-676b-4340-9c42-46cf2167127c',
+					debug: true // optional - Enables Genesys Browser Console Logging
+				});
+
+				Genesys('subscribe', 'Database.ready', dbSet);
+				Genesys('subscribe', 'MessagingService.conversationDisconnected', dbSet);
+				Genesys('subscribe', 'MessagingService.conversationCleared', dbSet);
+			})();
+		</script>
+	</body>
+</html>
