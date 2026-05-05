@@ -8,7 +8,8 @@
 		<script>
 			(() => {
 				const pData = {
-					IVR_Customer_Language: 'English'
+					IVR_Customer_Language: 'English',
+					IVR_Caller_Intent: 'Default'
 				};
 
 				const dbSet = () => {
@@ -36,6 +37,10 @@
 
 					if(params.get('customerIntent')) {
 						pData.IVR_Caller_Intent = params.get('customerIntent');
+					}
+
+					if(params.get('agentName')) {
+						pData.name = params.get('agentName');
 					}
 
 				}
