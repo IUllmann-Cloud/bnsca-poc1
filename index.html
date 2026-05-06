@@ -24,11 +24,11 @@
 					const params = new URLSearchParams(window.location.search);
 
 					if(params.get('origConversationId')) {
-						pData.ENT_Genesys_ConversationId = params.get('origConversationId');
+						pData.ENT_Genesys_Original_ConversationId = params.get('origConversationId');
 					}
 
 					if(params.get('customerParticipantId')) {
-						pData.ENT_Customer_Participant_ID = params.get('customerParticipantId');
+						pData.ENT_Customer_Original_ParticipantId = params.get('origCustomerParticipantId');
 					}
 
 					if(params.get('customerLanguage')) {
